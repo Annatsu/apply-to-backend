@@ -1,0 +1,31 @@
+{
+  "name": "apply-to-backend",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "watch": "npx nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Annatsu/apply-to-backend.git"
+  },
+  "author": {
+    "name": "Brendon Pagano",
+    "email": "brendonpagano@gmail.com",
+    "url": "https://brendonpagano.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Annatsu/apply-to-backend/issues"
+  },
+  "homepage": "https://github.com/Annatsu/apply-to-backend#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19"
+  }
+}
