@@ -2,7 +2,7 @@
 const dotenv = require('dotenv');
 
 // Application Modules
-const startServer = require('./src/server');
+const createServer = require('./src/server');
 
 /**
  * Initializes the application.
@@ -14,7 +14,7 @@ async function initialize() {
   dotenv.config();
 
   try {
-    await startServer();
+    await createServer();
   } catch (err) {
     console.error(err);
     process.exit(1);
