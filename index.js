@@ -11,7 +11,7 @@ const startServer = require('./src/server');
  * @function initialize
  */
 async function initialize() {
-  dotenv.load();
+  dotenv.config();
 
   try {
     await startServer();
