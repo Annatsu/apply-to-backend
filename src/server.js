@@ -13,27 +13,27 @@ const startServer = () => {
     .then(initServer);
 };
 
-const setupMiddlewares = ({ app }) => {
+const setupMiddlewares = ({ app, ...rest }) => {
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(morgan('dev'));
 
-  return { app };
+  return { app, ...rest };
 };
 
-const setupRoutes = ({ app }) => {
+const setupRoutes = ({ app, ...rest }) => {
   app.use('/static', express.static(path.resolve(__dirname, 'static')));
   app.use('/', makeIndexRouter());
 
-  return { app };
+  return { app, ...rest };
 };
 
-const initServer = ({ app }) => {
+const initServer = ({ app, ...rest }) => {
   app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`);
   });
 
-  return { app };
+  return { app, ...rest };
 };
 
 module.exports = startServer;
