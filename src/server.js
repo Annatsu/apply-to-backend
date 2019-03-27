@@ -15,18 +15,24 @@ const makeIndexRouter = require('./routes');
 
 /**
  * Initialize the application server.
+ * @param {CommonInterface} deps
  * @return {Promise}
  */
-const createServer = () => {
-  const commonInterface = {
-    app: express(),
-    serverPort: process.env.PORT,
-  };
+const createServer = async (deps) => {
+  const commonInterface =
+    typeof deps === 'object' && !Array.isArray(deps)
+      ? deps
+      : {
+          app: express(),
+          serverPort: process.env.PORT,
+        };
 
+  // Execute all instructions, returning only the application instance at the end.
   return Promise.resolve(commonInterface)
     .then(setupMiddlewares)
     .then(setupRoutes)
-    .then(initServer);
+    .then(initServer)
+    .then(({ app }) => app);
 };
 
 /**
@@ -34,7 +40,7 @@ const createServer = () => {
  * @param {CommonInterface} deps
  * @return {CommonInterface}
  */
-const setupMiddlewares = (deps) => {
+const setupMiddlewares = async (deps) => {
   const { app } = deps;
 
   app.use(express.json());
@@ -49,7 +55,7 @@ const setupMiddlewares = (deps) => {
  * @param {CommonInterface} deps
  * @return {CommonInterface}
  */
-const setupRoutes = (deps) => {
+const setupRoutes = async (deps) => {
   const { app } = deps;
 
   app.use('/static', express.static(path.resolve(__dirname, 'static')));
@@ -66,11 +72,12 @@ const setupRoutes = (deps) => {
 const initServer = (deps) => {
   const { app, serverPort } = deps;
 
-  app.listen(serverPort, () => {
-    console.log(`Server started on port ${serverPort}`);
+  return new Promise((resolve) => {
+    app.listen(serverPort, () => {
+      console.log(`Server started on port ${serverPort}`);
+      resolve(deps);
+    });
   });
-
-  return deps;
 };
 
 // Expose the main function.
